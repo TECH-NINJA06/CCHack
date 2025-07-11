@@ -1,7 +1,8 @@
 // ignore_for_file: use_super_parameters, use_build_context_synchronously, deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:frontend/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -26,61 +27,30 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleLogin() async {
-    if (!_formKey.currentState!.validate()) return;
+  final email = _emailController.text.trim();
+  final password = _passwordController.text.trim();
 
-    setState(() {
-      _isLoading = true;
-    });
+  try {
+    final doc = await FirebaseFirestore.instance.collection('hackathons').doc('CChack').collection('users').doc(email).get();
 
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-
-      Navigator.pushReplacementNamed(context, '/home');
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Login successful!'),
-          backgroundColor: Colors.green,
-        ),
-      );
-    } on FirebaseAuthException catch (e) {
-      String message;
-      switch (e.code) {
-        case 'user-not-found':
-          message = 'No user found with this email.';
-          break;
-        case 'wrong-password':
-          message = 'Incorrect password. Please try again.';
-          break;
-        case 'invalid-email':
-          message = 'Invalid email address.';
-          break;
-        case 'user-disabled':
-          message = 'This account has been disabled.';
-          break;
-        case 'too-many-requests':
-          message = 'Too many attempts. Try again later.';
-          break;
-        default:
-          message = 'Login failed. Please try again.';
-      }
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message), backgroundColor: Colors.red),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
-      );
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
+    if (!doc.exists) {
+      throw Exception("User not found");
     }
+
+    final data = doc.data()!;
+    if (data['password'] == password) {
+      // Proceed to home
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()),);
+    } else {
+      throw Exception("Incorrect password");
+    }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Login failed: $e'), backgroundColor: Colors.red),
+    );
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +78,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 40),
-
                     IconButton(
                       onPressed: () => Navigator.pop(context),
                       icon: const Icon(Icons.arrow_back_ios, color: Color(0xFF2E3A59)),
@@ -120,9 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 40),
-
                     const Text(
                       'Welcome Back! 👋',
                       style: TextStyle(
@@ -137,7 +104,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(fontSize: 16, color: Color(0xFF6B7280)),
                     ),
                     const SizedBox(height: 48),
-
                     const Text('Email',
                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFF2E3A59))),
                     const SizedBox(height: 8),
@@ -155,7 +121,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                     const SizedBox(height: 24),
-
                     const Text('Password',
                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFF2E3A59))),
                     const SizedBox(height: 8),
@@ -181,9 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         return null;
                       },
                     ),
-
                     const SizedBox(height: 16),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -204,9 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ],
                     ),
-
                     const SizedBox(height: 32),
-
                     Container(
                       width: double.infinity,
                       height: 56,
@@ -224,9 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white)),
                       ),
                     ),
-
                     const SizedBox(height: 24),
-
                     Row(
                       children: [
                         const Expanded(child: Divider(color: Color(0xFFE5E7EB))),
@@ -238,9 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         const Expanded(child: Divider(color: Color(0xFFE5E7EB))),
                       ],
                     ),
-
                     const SizedBox(height: 24),
-
                     Row(
                       children: [
                         Expanded(child: _socialLoginButton('Google', 'https://cdn.cdnlogo.com/logos/g/35/google-icon.svg')),
@@ -248,9 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Expanded(child: _socialLoginButton('Apple', null, icon: Icons.apple)),
                       ],
                     ),
-
                     const SizedBox(height: 32),
-
                     Center(
                       child: TextButton(
                         onPressed: () => Navigator.pushNamed(context, '/signup'),
@@ -272,7 +227,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 32),
                   ],
                 ),
