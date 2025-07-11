@@ -85,10 +85,7 @@ class HomeScreen extends StatelessWidget {
             gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                Color(0xFF6B73FF),
-                Color(0xFF9B59B6),
-              ],
+              colors: [Color(0xFF6B73FF), Color(0xFF9B59B6)],
             ),
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
@@ -293,9 +290,9 @@ class HomeScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.insights,
-                    color: const Color(0xFF6B73FF),
+                    color: Color(0xFF6B73FF),
                     size: 24,
                   ),
                   const SizedBox(width: 8),

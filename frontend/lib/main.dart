@@ -1,16 +1,56 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+
 import 'models/mood_provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
 import 'screens/logs_screen.dart';
-import 'package:flutter/services.dart';
 
-void main() {
-  runApp(const MindEaseApp());
+import 'services/notification_service.dart'; // <-- add this
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await NotificationService.initialize(); // <-- initialize notifications
+
+  // Schedule your reminders
+  NotificationService.scheduleDailyNotification(
+    id: 1,
+    title: '💧 Hydration Reminder',
+    body: 'Time to drink water!',
+    hour: 10,
+    minute: 0,
+  );
+
+  NotificationService.scheduleDailyNotification(
+    id: 2,
+    title: '🧘 Self-care Break',
+    body: 'Take a 5-minute break to relax.',
+    hour: 14,
+    minute: 0,
+  );
+
+  NotificationService.scheduleDailyNotification(
+    id: 3,
+    title: '🚶 Walk Reminder',
+    body: 'Time to take a short walk!',
+    hour: 17,
+    minute: 30,
+  );
+
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => MoodProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -32,21 +72,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
         primaryColor: const Color(0xFF4CAF50),
-        
-        // Color scheme
+
         colorScheme: const ColorScheme.light(
           primary: Color(0xFF4CAF50),
           secondary: Color(0xFF81C784),
           surface: Colors.white,
-          background: Color(0xFFF8F9FA),
           error: Color(0xFFE57373),
           onPrimary: Colors.white,
           onSecondary: Colors.white,
           onSurface: Color(0xFF2E3A59),
-          onBackground: Color(0xFF2E3A59),
           onError: Colors.white,
         ),
-        
+
         textTheme: const TextTheme(
           displayLarge: TextStyle(
             fontSize: 32,
@@ -95,7 +132,7 @@ class MyApp extends StatelessWidget {
             color: Color(0xFF6B7280),
           ),
         ),
-        
+
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF4CAF50),
@@ -112,7 +149,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        
+
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
             foregroundColor: const Color(0xFF4CAF50),
@@ -122,7 +159,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        
+
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: Colors.white,
@@ -156,17 +193,15 @@ class MyApp extends StatelessWidget {
             vertical: 16,
           ),
         ),
-        
-        // Card theme
-        cardTheme: CardTheme(
+
+        cardTheme: CardThemeData(
           elevation: 2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
           margin: const EdgeInsets.all(8),
         ),
-        
-        // App bar theme
+
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -183,8 +218,7 @@ class MyApp extends StatelessWidget {
             statusBarIconBrightness: Brightness.dark,
           ),
         ),
-        
-        // Bottom navigation theme
+
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.white,
           selectedItemColor: Color(0xFF4CAF50),
@@ -192,32 +226,29 @@ class MyApp extends StatelessWidget {
           type: BottomNavigationBarType.fixed,
           elevation: 8,
         ),
-        
-        // Floating action button theme
+
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
           backgroundColor: Color(0xFF4CAF50),
           foregroundColor: Colors.white,
           elevation: 4,
         ),
-        
-        // Progress indicator theme
+
         progressIndicatorTheme: const ProgressIndicatorThemeData(
           color: Color(0xFF4CAF50),
         ),
-        
-        // Switch theme
+
         switchTheme: SwitchThemeData(
-          thumbColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
-              if (states.contains(MaterialState.selected)) {
+          thumbColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.selected)) {
                 return const Color(0xFF4CAF50);
               }
               return null;
             },
           ),
-          trackColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
-              if (states.contains(MaterialState.selected)) {
+          trackColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.selected)) {
                 return const Color(0xFF4CAF50).withOpacity(0.5);
               }
               return null;
@@ -231,9 +262,8 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => const SignupScreen(),
         '/login': (context) => const LoginScreen(),
         '/home': (context) => const HomeScreen(),
-        '/logs': (context) => LogsScreen(), // Route to logs screen
+        '/logs': (context) => LogsScreen(),
       },
-
     );
   }
 }
