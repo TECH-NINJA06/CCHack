@@ -1,11 +1,8 @@
-// ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'screens/welcome_screen.dart';
-// import 'screens/onboarding_screen.dart';
-// import 'screens/login_screen.dart';
-// import 'screens/home_screen.dart';
+
 
 void main() {
   runApp(const MindEaseApp());
@@ -16,7 +13,6 @@ class MindEaseApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Set system UI overlay style
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
@@ -29,10 +25,7 @@ class MindEaseApp extends StatelessWidget {
     return MaterialApp(
       title: 'MindEase',
       debugShowCheckedModeBanner: false,
-      
-      // App Theme
       theme: ThemeData(
-        // Primary color scheme
         primarySwatch: Colors.green,
         primaryColor: const Color(0xFF4CAF50),
         
@@ -50,7 +43,6 @@ class MindEaseApp extends StatelessWidget {
           onError: Colors.white,
         ),
         
-        // Typography
         textTheme: const TextTheme(
           displayLarge: TextStyle(
             fontSize: 32,
@@ -100,7 +92,6 @@ class MindEaseApp extends StatelessWidget {
           ),
         ),
         
-        // Button themes
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF4CAF50),
@@ -128,7 +119,6 @@ class MindEaseApp extends StatelessWidget {
           ),
         ),
         
-        // Input decoration theme
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: Colors.white,
@@ -232,27 +222,13 @@ class MindEaseApp extends StatelessWidget {
         ),
       ),
       
-      // Routes
       initialRoute: '/',
       routes: {
         '/': (context) => const WelcomeScreen(),
-        // '/onboarding': (context) => const OnboardingScreen(),
-        // '/login': (context) => const LoginScreen(),
-        // '/home': (context) => const HomeScreen(),
-        // '/signup': (context) => const SignupScreen(),
       },
       
-      // Route generator for dynamic routes
       onGenerateRoute: (settings) {
         switch (settings.name) {
-          // case '/profile':
-          //   return MaterialPageRoute(
-          //     builder: (context) => const ProfileScreen(),
-          //   );
-          // case '/settings':
-          //   return MaterialPageRoute(
-          //     builder: (context) => const SettingsScreen(),
-          //   );
           default:
             return MaterialPageRoute(
               builder: (context) => const WelcomeScreen(),
@@ -290,7 +266,6 @@ class SlidePageRoute<T> extends MaterialPageRoute<T> {
   }
 }
 
-// Optional: Fade page route
 class FadePageRoute<T> extends MaterialPageRoute<T> {
   FadePageRoute({required super.builder, super.settings});
 
