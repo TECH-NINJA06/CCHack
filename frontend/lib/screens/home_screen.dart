@@ -7,6 +7,7 @@ import '../models/mood_provider.dart';
 import 'journal_screen.dart';
 import 'mood_screen.dart';
 import 'logs_screen.dart';
+import 'sos_screen.dart'; // Make sure this is correctly imported
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -28,6 +29,8 @@ class HomeScreen extends StatelessWidget {
               _buildQuickActions(context),
               const SizedBox(height: 24),
               _buildInsightCard(context),
+              const SizedBox(height: 32),
+              _buildSosButton(context), // <-- SOS Button
             ],
           ),
         ),
@@ -146,42 +149,43 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildQuickActions(BuildContext context) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const Text(
-        'Quick Actions',
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Color(0xFF2D3748),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Quick Actions',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF2D3748),
+          ),
         ),
-      ),
-      const SizedBox(height: 16),
-      Row(
-        children: [
-          Expanded(
-            child: _buildActionCard(
-              icon: Icons.mood,
-              title: 'Track Mood',
-              subtitle: 'Log your feelings',
-              color: const Color(0xFF4ECDC4),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const MoodScreen()),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: _buildActionCard(
+                icon: Icons.mood,
+                title: 'Track Mood',
+                subtitle: 'Log your feelings',
+                color: const Color(0xFF4ECDC4),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const MoodScreen()),
+                ),
               ),
             ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: _buildActionCard(
-              icon: Icons.book,
-              title: 'Journal',
-              subtitle: 'Write your thoughts',
-              color: const Color(0xFF45B7D1),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const JournalScreen()),
+            const SizedBox(width: 16),
+            Expanded(
+              child: _buildActionCard(
+                icon: Icons.book,
+                title: 'Journal',
+                subtitle: 'Write your thoughts',
+                color: const Color(0xFF45B7D1),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const JournalScreen()),
+                ),
               ),
             ),
           ),
@@ -220,7 +224,6 @@ class HomeScreen extends StatelessWidget {
     ],
   );
 }
-
 
   Widget _buildActionCard({
     required IconData icon,
@@ -303,14 +306,14 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                children: [
-                  const Icon(
+                children: const [
+                  Icon(
                     Icons.insights,
                     color: Color(0xFF6B73FF),
                     size: 24,
                   ),
-                  const SizedBox(width: 8),
-                  const Text(
+                  SizedBox(width: 8),
+                  Text(
                     'Your Progress',
                     style: TextStyle(
                       fontSize: 18,
@@ -355,6 +358,59 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildSosButton(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 56,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(28),
+        gradient: const LinearGradient(
+          colors: [
+            Color(0xFFC11F27),
+            Color(0xFFD03B3D),
+          ],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFC11F27).withOpacity(0.3),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const SOSEmergencyScreen()),
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(28),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(Icons.warning, color: Colors.white),
+            SizedBox(width: 8),
+            Text(
+              'SOS EMERGENCY',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
