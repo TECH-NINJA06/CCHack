@@ -1,10 +1,8 @@
-# tools/cbt.py
-
 from typing import Literal
 import random
 import os
 
-# Optional Groq import
+
 try:
     from groq import Groq
     groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
@@ -12,7 +10,6 @@ try:
 except ImportError:
     USE_GROQ = False
 
-# Static CBT exercise bank
 CBT_EXERCISES = {
     "anxiety": [
         "Write down your anxious thoughts and identify any cognitive distortions (e.g., catastrophizing).",
@@ -57,7 +54,7 @@ def get_cbt_exercise(topic: Literal["anxiety", "depression", "stress", "negative
                     {"role": "system", "content": "You are a licensed CBT therapist providing practical, safe and gentle CBT exercises."},
                     {"role": "user", "content": f"Give me one practical CBT exercise for someone dealing with {topic}."}
                 ],
-                model="mixtral-8x7b-32768",  # or use 'llama3-8b-8192'
+                model="mixtral-8x7b-32768", 
                 temperature=0.7,
                 max_tokens=300,
             )

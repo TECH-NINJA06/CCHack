@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "536188765571",
+    "project_id": "cchack-f45bf",
+    "storage_bucket": "cchack-f45bf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:536188765571:android:6c25ac99bf2e8b0c4422b6",
+        "android_client_info": {
+          "package_name": "com.example.frontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8_-TVA1SY-1en7jBMhrWRYc6ZX7EdqXg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
