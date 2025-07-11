@@ -1,10 +1,10 @@
 // ignore_for_file: unused_import, duplicate_import, deprecated_member_use
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/data/latest.dart' as tz;
+
 import 'package:timezone/timezone.dart' as tz;
 
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
@@ -45,6 +45,7 @@ class NotificationService {
           priority: Priority.high,
         ),
       ),
+      // ignore: deprecated_member_use
       androidAllowWhileIdle: true,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
@@ -53,26 +54,12 @@ class NotificationService {
   }
 
   // ✅ Add this method:
-  static Future<void> showInstantNotification() async {
-    const AndroidNotificationDetails androidDetails =
-        AndroidNotificationDetails(
-      'test_channel_id',
-      'Test Notifications',
-      channelDescription: 'For testing local notifications',
-      importance: Importance.max,
-      priority: Priority.high,
-    );
+ 
 
-    const NotificationDetails platformDetails =
-        NotificationDetails(android: androidDetails);
+    
 
-    await _notificationsPlugin.show(
-      999, // ID
-      '🔔 Test Notification',
-      'This is a test notification from MindSpace!',
-      platformDetails,
-    );
-  }
+    
+  
 
   // Helper to calculate the next instance of a specific time
   static tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {

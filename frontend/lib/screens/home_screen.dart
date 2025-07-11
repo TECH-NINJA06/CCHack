@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:frontend/services/notification_service.dart';
+import 'package:frontend/screens/chatbot_screen.dart';
 import 'package:provider/provider.dart';
 import '../models/mood_provider.dart';
 import 'journal_screen.dart';
@@ -188,43 +188,42 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-          ],
+          ),
+        ],
+      ),
+      Row(
+  children: [
+    Expanded(
+      child: _buildActionCard(
+        icon: Icons.show_chart,
+        title: 'View Logs',
+        subtitle: 'Weekly mood chart',
+        color: const Color(0xFF6B73FF),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => LogsScreen()),
         ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: _buildActionCard(
-                icon: Icons.show_chart,
-                title: 'View Logs',
-                subtitle: 'Weekly mood chart',
-                color: const Color(0xFF6B73FF),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => LogsScreen()),
-                ),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: _buildActionCard(
-                icon: Icons.notifications_active,
-                title: 'Test Notification',
-                subtitle: 'Send test alert',
-                color: const Color(0xFFEF5350),
-                onTap: () {
-                  NotificationService.showInstantNotification();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Test notification sent!')),
-                  );
-                },
-              ),
-            ),
-          ],
+      ),
+    ),
+    const SizedBox(width: 16),
+    Expanded(
+      child: _buildActionCard(
+        icon: Icons.chat,
+        title: 'AI ChatBot',
+        subtitle: 'Ask your assistant',
+        color: const Color(0xFF7E57C2),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const ChatBotScreen()),
         ),
-      ],
-    );
-  }
+      ),
+    ),
+  ],
+),
+
+    ],
+  );
+}
 
   Widget _buildActionCard({
     required IconData icon,
