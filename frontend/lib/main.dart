@@ -1,122 +1,305 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'screens/welcome_screen.dart';
+// import 'screens/onboarding_screen.dart';
+// import 'screens/login_screen.dart';
+// import 'screens/home_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MindEaseApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MindEaseApp extends StatelessWidget {
+  const MindEaseApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    // Set system UI overlay style
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+
+    return MaterialApp(
+      title: 'MindEase',
+      debugShowCheckedModeBanner: false,
+      
+      // App Theme
+      theme: ThemeData(
+        // Primary color scheme
+        primarySwatch: Colors.green,
+        primaryColor: const Color(0xFF4CAF50),
+        
+        // Color scheme
+        colorScheme: const ColorScheme.light(
+          primary: Color(0xFF4CAF50),
+          secondary: Color(0xFF81C784),
+          surface: Colors.white,
+          background: Color(0xFFF8F9FA),
+          error: Color(0xFFE57373),
+          onPrimary: Colors.white,
+          onSecondary: Colors.white,
+          onSurface: Color(0xFF2E3A59),
+          onBackground: Color(0xFF2E3A59),
+          onError: Colors.white,
+        ),
+        
+        // Typography
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF2E3A59),
+            letterSpacing: -0.5,
+          ),
+          displayMedium: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF2E3A59),
+          ),
+          headlineLarge: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF2E3A59),
+          ),
+          headlineMedium: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFF2E3A59),
+          ),
+          titleLarge: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF2E3A59),
+          ),
+          titleMedium: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFF2E3A59),
+          ),
+          bodyLarge: TextStyle(
+            fontSize: 16,
+            color: Color(0xFF6B7280),
+            height: 1.4,
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 14,
+            color: Color(0xFF6B7280),
+            height: 1.4,
+          ),
+          labelLarge: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFF6B7280),
+          ),
+        ),
+        
+        // Button themes
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF4CAF50),
+            foregroundColor: Colors.white,
+            minimumSize: const Size(double.infinity, 56),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(28),
+            ),
+            elevation: 0,
+            shadowColor: Colors.transparent,
+            textStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: const Color(0xFF4CAF50),
+            textStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        
+        // Input decoration theme
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: const BorderSide(
+              color: Color(0xFFE5E7EB),
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: const BorderSide(
+              color: Color(0xFFE5E7EB),
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: const BorderSide(
+              color: Color(0xFF4CAF50),
+              width: 2,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: const BorderSide(
+              color: Color(0xFFE57373),
+            ),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 16,
+          ),
+        ),
+        
+        // Card theme
+        cardTheme: CardTheme(
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          margin: const EdgeInsets.all(8),
+        ),
+        
+        // App bar theme
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: IconThemeData(
+            color: Color(0xFF2E3A59),
+          ),
+          titleTextStyle: TextStyle(
+            color: Color(0xFF2E3A59),
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.dark,
+          ),
+        ),
+        
+        // Bottom navigation theme
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Colors.white,
+          selectedItemColor: Color(0xFF4CAF50),
+          unselectedItemColor: Color(0xFF9CA3AF),
+          type: BottomNavigationBarType.fixed,
+          elevation: 8,
+        ),
+        
+        // Floating action button theme
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: Color(0xFF4CAF50),
+          foregroundColor: Colors.white,
+          elevation: 4,
+        ),
+        
+        // Progress indicator theme
+        progressIndicatorTheme: const ProgressIndicatorThemeData(
+          color: Color(0xFF4CAF50),
+        ),
+        
+        // Switch theme
+        switchTheme: SwitchThemeData(
+          thumbColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+              if (states.contains(MaterialState.selected)) {
+                return const Color(0xFF4CAF50);
+              }
+              return null;
+            },
+          ),
+          trackColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+              if (states.contains(MaterialState.selected)) {
+                return const Color(0xFF4CAF50).withOpacity(0.5);
+              }
+              return null;
+            },
+          ),
+        ),
+      ),
+      
+      // Routes
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const WelcomeScreen(),
+        // '/onboarding': (context) => const OnboardingScreen(),
+        // '/login': (context) => const LoginScreen(),
+        // '/home': (context) => const HomeScreen(),
+        // '/signup': (context) => const SignupScreen(),
+      },
+      
+      // Route generator for dynamic routes
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          // case '/profile':
+          //   return MaterialPageRoute(
+          //     builder: (context) => const ProfileScreen(),
+          //   );
+          // case '/settings':
+          //   return MaterialPageRoute(
+          //     builder: (context) => const SettingsScreen(),
+          //   );
+          default:
+            return MaterialPageRoute(
+              builder: (context) => const WelcomeScreen(),
+            );
+        }
+      },
+      
+      // Handle unknown routes
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (context) => const WelcomeScreen(),
+        );
+      },
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+// Optional: Custom route transitions
+class SlidePageRoute<T> extends MaterialPageRoute<T> {
+  SlidePageRoute({required super.builder, super.settings});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    return SlideTransition(
+      position: Tween<Offset>(
+        begin: const Offset(1.0, 0.0),
+        end: Offset.zero,
+      ).animate(CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeInOut,
+      )),
+      child: child,
+    );
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+// Optional: Fade page route
+class FadePageRoute<T> extends MaterialPageRoute<T> {
+  FadePageRoute({required super.builder, super.settings});
 
   @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    return FadeTransition(
+      opacity: animation,
+      child: child,
     );
   }
 }
