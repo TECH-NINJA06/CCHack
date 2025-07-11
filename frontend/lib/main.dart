@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'models/mood_provider.dart';
 import 'screens/home_screen.dart';
@@ -12,9 +13,13 @@ import 'screens/signup_screen.dart';
 import 'screens/logs_screen.dart';
 import 'services/notification_service.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Load .env file
+  await dotenv.load(fileName: ".env");
+
+  // Initialize notifications
   await NotificationService.initialize();
 
   // Schedule daily notifications
