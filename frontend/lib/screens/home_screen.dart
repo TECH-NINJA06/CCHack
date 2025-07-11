@@ -1,8 +1,11 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/mood_provider.dart';
 import 'journal_screen.dart';
 import 'mood_screen.dart';
+import 'logs_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -40,7 +43,6 @@ class HomeScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                // ignore: deprecated_member_use
                 color: const Color(0xFF6B73FF).withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -91,7 +93,6 @@ class HomeScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                // ignore: deprecated_member_use
                 color: const Color(0xFF6B73FF).withOpacity(0.3),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
@@ -123,12 +124,8 @@ class HomeScreen extends StatelessWidget {
                   const Spacer(),
                   if (moodProvider.mood.isNotEmpty)
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        // ignore: deprecated_member_use
                         color: Colors.white.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -192,6 +189,24 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: _buildActionCard(
+                icon: Icons.show_chart,
+                title: 'View Logs',
+                subtitle: 'Weekly mood chart',
+                color: const Color(0xFF6B73FF),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) =>  LogsScreen()),
+                ),
+              ),
+            ),
+            const Spacer(),
+          ],
+        ),
       ],
     );
   }
@@ -212,7 +227,6 @@ class HomeScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              // ignore: deprecated_member_use
               color: Colors.black.withOpacity(0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
@@ -225,7 +239,6 @@ class HomeScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                // ignore: deprecated_member_use
                 color: color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -269,7 +282,6 @@ class HomeScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                // ignore: deprecated_member_use
                 color: Colors.black.withOpacity(0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 4),

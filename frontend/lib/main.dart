@@ -3,10 +3,9 @@ import 'package:provider/provider.dart';
 import 'models/mood_provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/welcome_screen.dart';
-import 'screens/login_screen.dart'; 
+import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
-      // <-- create this screen
-// <-- create this screen
+import 'screens/logs_screen.dart'; // Import logs screen
 
 void main() {
   runApp(
@@ -59,12 +58,13 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: '/', // Show welcome first
+      initialRoute: '/',
       routes: {
         '/': (context) => const WelcomeScreen(),
         '/signup': (context) => const SignupScreen(),
-        '/login': (context) => const LoginScreen(),           // Create this screen
+        '/login': (context) => const LoginScreen(),
         '/home': (context) => const HomeScreen(),
+        '/logs': (context) => LogsScreen(), // Route to logs screen
       },
     );
   }
