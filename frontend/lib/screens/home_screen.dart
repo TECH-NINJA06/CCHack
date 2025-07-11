@@ -1,13 +1,37 @@
 // ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/mood_provider.dart';
-import 'journal_screen.dart';
-import 'mood_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+import '../models/mood_provider.dart';
+import 'chatbot_screen.dart';
+import 'journal_screen.dart';
+import 'logs_screen.dart';
+import 'mood_screen.dart';
+import 'sos_screen.dart';
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    const HomeContent(), // ✅ Modularized
+    const JournalScreen(),
+    const NotificationScreen(),
+    const BlogScreen(),
+    AssessmentScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +50,8 @@ class HomeScreen extends StatelessWidget {
               _buildQuickActions(context),
               const SizedBox(height: 24),
               _buildInsightCard(context),
+              const SizedBox(height: 32),
+              _buildSosButton(context),
             ],
           ),
         ),
@@ -84,10 +110,7 @@ class HomeScreen extends StatelessWidget {
             gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [
-                Color(0xFF6B73FF),
-                Color(0xFF9B59B6),
-              ],
+              colors: [Color(0xFF6B73FF), Color(0xFF9B59B6)],
             ),
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
@@ -123,10 +146,7 @@ class HomeScreen extends StatelessWidget {
                   const Spacer(),
                   if (moodProvider.mood.isNotEmpty)
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(20),
@@ -191,6 +211,36 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: _buildActionCard(
+                icon: Icons.show_chart,
+                title: 'View Logs',
+                subtitle: 'Weekly mood chart',
+                color: const Color(0xFF6B73FF),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => LogsScreen()),
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: _buildActionCard(
+                icon: Icons.chat,
+                title: 'AI ChatBot',
+                subtitle: 'Ask your assistant',
+                color: const Color(0xFF7E57C2),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ChatBotPage()),
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -207,68 +257,43 @@ class HomeScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 20,
+              offset: const Offset(0, -5),
             ),
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                icon,
-                color: color,
-                size: 24,
-              ),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            selectedItemColor: const Color(0xFF6B73FF),
+            unselectedItemColor: Colors.grey[400],
+            showUnselectedLabels: true,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            selectedLabelStyle: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
             ),
-            const SizedBox(height: 12),
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF2D3748),
-              ),
+            unselectedLabelStyle: const TextStyle(
+              fontSize: 11,
             ),
-            const SizedBox(height: 4),
-            Text(
-              subtitle,
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey[600],
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home_rounded),
+                label: 'Home',
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInsightCard(BuildContext context) {
-    return Consumer<MoodProvider>(
-      builder: (context, moodProvider, child) {
-        return Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.book_rounded),
+                label: 'Journal',
               ),
             ],
           ),
@@ -276,14 +301,14 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                children: [
+                children: const [
                   Icon(
                     Icons.insights,
-                    color: const Color(0xFF6B73FF),
+                    color: Color(0xFF6B73FF),
                     size: 24,
                   ),
-                  const SizedBox(width: 8),
-                  const Text(
+                  SizedBox(width: 8),
+                  Text(
                     'Your Progress',
                     style: TextStyle(
                       fontSize: 18,
@@ -329,5 +354,75 @@ class HomeScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Widget _buildSosButton(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 56,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(28),
+        gradient: const LinearGradient(
+          colors: [Color(0xFFC11F27), Color(0xFFD03B3D)],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFC11F27).withOpacity(0.3),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const SOSEmergencyScreen()),
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(28),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(Icons.warning, color: Colors.white),
+            SizedBox(width: 8),
+            Text(
+              'SOS EMERGENCY',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// --------------------- Dummy Screens ---------------------
+
+class NotificationScreen extends StatelessWidget {
+  const NotificationScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: Text('Notifications'));
+  }
+}
+
+class BlogScreen extends StatelessWidget {
+  const BlogScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: Text('Blogs'));
   }
 }
