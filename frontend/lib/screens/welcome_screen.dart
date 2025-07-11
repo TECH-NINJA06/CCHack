@@ -103,7 +103,7 @@ class WelcomeScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       // Navigate to onboarding
-                      Navigator.pushNamed(context, '/onboarding');
+                      Navigator.pushNamed(context, '/signup');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,

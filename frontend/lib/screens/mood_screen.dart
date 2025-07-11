@@ -80,6 +80,7 @@ class MoodScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: isSelected 
+                              // ignore: deprecated_member_use
                               ? (mood['color'] as Color).withOpacity(0.1)
                               : Colors.white,
                           borderRadius: BorderRadius.circular(20),
@@ -92,7 +93,9 @@ class MoodScreen extends StatelessWidget {
                           boxShadow: [
                             BoxShadow(
                               color: isSelected
+                                  // ignore: deprecated_member_use
                                   ? (mood['color'] as Color).withOpacity(0.3)
+                                  // ignore: deprecated_member_use
                                   : Colors.black.withOpacity(0.05),
                               blurRadius: isSelected ? 15 : 10,
                               offset: const Offset(0, 4),

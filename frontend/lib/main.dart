@@ -1,15 +1,19 @@
-// main.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'models/mood_provider.dart';
+import 'screens/home_screen.dart';
 import 'screens/welcome_screen.dart';
-
+import 'screens/login_screen.dart';
+import 'screens/signup_screen.dart';
+import 'screens/logs_screen.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MindEaseApp());
 }
 
-class MindEaseApp extends StatelessWidget {
-  const MindEaseApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class MindEaseApp extends StatelessWidget {
     );
 
     return MaterialApp(
-      title: 'MindEase',
+      title: 'MindSpace',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
@@ -221,47 +225,15 @@ class MindEaseApp extends StatelessWidget {
           ),
         ),
       ),
-      
       initialRoute: '/',
       routes: {
         '/': (context) => const WelcomeScreen(),
+        '/signup': (context) => const SignupScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/home': (context) => const HomeScreen(),
+        '/logs': (context) => LogsScreen(), // Route to logs screen
       },
-      
-      onGenerateRoute: (settings) {
-        switch (settings.name) {
-          default:
-            return MaterialPageRoute(
-              builder: (context) => const WelcomeScreen(),
-            );
-        }
-      },
-      
-      // Handle unknown routes
-      onUnknownRoute: (settings) {
-        return MaterialPageRoute(
-          builder: (context) => const WelcomeScreen(),
-        );
-      },
-    );
-  }
-}
 
-// Optional: Custom route transitions
-class SlidePageRoute<T> extends MaterialPageRoute<T> {
-  SlidePageRoute({required super.builder, super.settings});
-
-  @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation, Widget child) {
-    return SlideTransition(
-      position: Tween<Offset>(
-        begin: const Offset(1.0, 0.0),
-        end: Offset.zero,
-      ).animate(CurvedAnimation(
-        parent: animation,
-        curve: Curves.easeInOut,
-      )),
-      child: child,
     );
   }
 }
