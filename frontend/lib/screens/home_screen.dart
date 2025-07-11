@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:frontend/services/notification_service.dart';
 import 'package:provider/provider.dart';
 import '../models/mood_provider.dart';
 import 'journal_screen.dart';
@@ -145,68 +146,83 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildQuickActions(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Quick Actions',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF2D3748),
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(
+        'Quick Actions',
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Color(0xFF2D3748),
+        ),
+      ),
+      const SizedBox(height: 16),
+      Row(
+        children: [
+          Expanded(
+            child: _buildActionCard(
+              icon: Icons.mood,
+              title: 'Track Mood',
+              subtitle: 'Log your feelings',
+              color: const Color(0xFF4ECDC4),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const MoodScreen()),
+              ),
+            ),
           ),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: _buildActionCard(
-                icon: Icons.mood,
-                title: 'Track Mood',
-                subtitle: 'Log your feelings',
-                color: const Color(0xFF4ECDC4),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const MoodScreen()),
-                ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: _buildActionCard(
+              icon: Icons.book,
+              title: 'Journal',
+              subtitle: 'Write your thoughts',
+              color: const Color(0xFF45B7D1),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const JournalScreen()),
               ),
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: _buildActionCard(
-                icon: Icons.book,
-                title: 'Journal',
-                subtitle: 'Write your thoughts',
-                color: const Color(0xFF45B7D1),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const JournalScreen()),
-                ),
+          ),
+        ],
+      ),
+      const SizedBox(height: 16),
+      Row(
+        children: [
+          Expanded(
+            child: _buildActionCard(
+              icon: Icons.show_chart,
+              title: 'View Logs',
+              subtitle: 'Weekly mood chart',
+              color: const Color(0xFF6B73FF),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => LogsScreen()),
               ),
             ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: _buildActionCard(
-                icon: Icons.show_chart,
-                title: 'View Logs',
-                subtitle: 'Weekly mood chart',
-                color: const Color(0xFF6B73FF),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) =>  LogsScreen()),
-                ),
-              ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: _buildActionCard(
+              icon: Icons.notifications_active,
+              title: 'Test Notification',
+              subtitle: 'Send test alert',
+              color: const Color(0xFFEF5350),
+              onTap: () {
+                NotificationService.showInstantNotification();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Test notification sent!')),
+                );
+              },
             ),
-            const Spacer(),
-          ],
-        ),
-      ],
-    );
-  }
+          ),
+        ],
+      ),
+    ],
+  );
+}
+
 
   Widget _buildActionCard({
     required IconData icon,
