@@ -32,4 +32,10 @@ class MoodProvider extends ChangeNotifier {
     await prefs.setStringList('journal', _journalEntries);
     notifyListeners();
   }
+
+  void setJournalEntries(List<String> entries) {
+  _journalEntries = entries;
+  notifyListeners();
+}
+
 }
