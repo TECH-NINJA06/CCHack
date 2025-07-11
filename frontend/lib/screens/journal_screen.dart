@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/mood_provider.dart';
 
 class JournalScreen extends StatefulWidget {
@@ -12,6 +13,68 @@ class JournalScreen extends StatefulWidget {
 class _JournalScreenState extends State<JournalScreen> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadJournalEntries();
+  }
+
+ Future<void> _loadJournalEntries() async {
+  try {
+    final snapshot = await FirebaseFirestore.instance.collection('hackathons')
+        .doc('CChack')
+        .collection('journal')
+        .orderBy('date', descending: true)
+        .get();
+
+    final entries = snapshot.docs.map((doc) => doc['entry'] as String).toList();
+    Provider.of<MoodProvider>(context, listen: false).setJournalEntries(entries);
+  } catch (e) {
+    debugPrint('Error loading journal entries: $e');
+  }
+}
+
+
+ Future<void> _saveEntry() async {
+  if (_controller.text.isEmpty) return;
+
+  try {
+    final now = DateTime.now();
+    final date = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+
+    await FirebaseFirestore.instance.collection('hackathons')
+        .doc('CChack')
+        .collection('journal')
+        .doc(date)
+        .set({
+          'date': date,
+          'entry': _controller.text.trim(),
+        });
+
+    Provider.of<MoodProvider>(context, listen: false).addJournalEntry(_controller.text);
+    _controller.clear();
+    _focusNode.unfocus();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Journal entry saved for $date'),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+    );
+  } catch (e) {
+    debugPrint('Error saving journal entry: $e');
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Failed to save entry'),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+    );
+  }
+}
+
 
   @override
   void dispose() {
@@ -61,7 +124,6 @@ class _JournalScreenState extends State<JournalScreen> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      // ignore: deprecated_member_use
                       color: Colors.black.withOpacity(0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
@@ -89,22 +151,7 @@ class _JournalScreenState extends State<JournalScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (_controller.text.isNotEmpty) {
-                      moodProvider.addJournalEntry(_controller.text);
-                      _controller.clear();
-                      _focusNode.unfocus();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: const Text('Journal entry saved!'),
-                          behavior: SnackBarBehavior.floating,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                      );
-                    }
-                  },
+                  onPressed: _saveEntry,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF6B73FF),
                     foregroundColor: Colors.white,
@@ -167,8 +214,8 @@ class _JournalScreenState extends State<JournalScreen> {
                     : ListView.builder(
                         itemCount: moodProvider.journalEntries.length,
                         itemBuilder: (context, index) {
-                          final entry = moodProvider.journalEntries[moodProvider.journalEntries.length - 1 - index];
-                          
+                          final entry = moodProvider.journalEntries[index];
+
                           return Container(
                             margin: const EdgeInsets.only(bottom: 12),
                             padding: const EdgeInsets.all(16),
@@ -177,7 +224,6 @@ class _JournalScreenState extends State<JournalScreen> {
                               borderRadius: BorderRadius.circular(12),
                               boxShadow: [
                                 BoxShadow(
-                                  // ignore: deprecated_member_use
                                   color: Colors.black.withOpacity(0.05),
                                   blurRadius: 8,
                                   offset: const Offset(0, 2),

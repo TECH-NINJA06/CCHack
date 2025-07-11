@@ -37,7 +37,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
   if (_formKey.currentState!.validate()) {
     try {
-      // Store in Firestore using email as document ID
       await FirebaseFirestore.instance
           .collection('hackathons')
           .doc('CChack')
