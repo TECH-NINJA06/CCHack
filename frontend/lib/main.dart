@@ -1,9 +1,8 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontend/screens/chatbot_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 
 import 'models/mood_provider.dart';
 import 'screens/home_screen.dart';
@@ -16,13 +15,13 @@ import 'services/notification_service.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Load .env file
-  await dotenv.load(fileName: ".env");
+  // ✅ Initialize Gemini with your actual API key (DO NOT expose this publicly)
+  Gemini.init(apiKey: "AIzaSyD4OL9n18zDRxT3AhX060fOo14Fw5KfiYg"); // ← <-- Put your Gemini key here
 
   // Initialize notifications
   await NotificationService.initialize();
 
-  // Schedule daily notifications
+  // Daily reminders
   NotificationService.scheduleDailyNotification(
     id: 1,
     title: '💧 Hydration Reminder',
@@ -54,6 +53,7 @@ Future<void> main() async {
     ),
   );
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -123,6 +123,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/home': (context) => const HomeScreen(),
         '/logs': (context) => LogsScreen(),
+        '/chatbot': (context) => const ChatBotPage(),
       },
     );
   }

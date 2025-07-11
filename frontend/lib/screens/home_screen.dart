@@ -1,13 +1,14 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/chatbot_screen.dart';
 import 'package:provider/provider.dart';
+
 import '../models/mood_provider.dart';
+import 'chatbot_screen.dart';
 import 'journal_screen.dart';
-import 'mood_screen.dart';
 import 'logs_screen.dart';
-import 'sos_screen.dart'; // Make sure this is correctly imported
+import 'mood_screen.dart';
+import 'sos_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -30,7 +31,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 24),
               _buildInsightCard(context),
               const SizedBox(height: 32),
-              _buildSosButton(context), // <-- SOS Button
+              _buildSosButton(context),
             ],
           ),
         ),
@@ -188,42 +189,41 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-      Row(
-  children: [
-    Expanded(
-      child: _buildActionCard(
-        icon: Icons.show_chart,
-        title: 'View Logs',
-        subtitle: 'Weekly mood chart',
-        color: const Color(0xFF6B73FF),
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => LogsScreen()),
+          ],
         ),
-      ),
-    ),
-    const SizedBox(width: 16),
-    Expanded(
-      child: _buildActionCard(
-        icon: Icons.chat,
-        title: 'AI ChatBot',
-        subtitle: 'Ask your assistant',
-        color: const Color(0xFF7E57C2),
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const ChatBotScreen()),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: _buildActionCard(
+                icon: Icons.show_chart,
+                title: 'View Logs',
+                subtitle: 'Weekly mood chart',
+                color: const Color(0xFF6B73FF),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => LogsScreen()),
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: _buildActionCard(
+                icon: Icons.chat,
+                title: 'AI ChatBot',
+                subtitle: 'Ask your assistant',
+                color: const Color(0xFF7E57C2),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ChatBotPage()),
+                ),
+              ),
+            ),
+          ],
         ),
-      ),
-    ),
-  ],
-),
-
-    ],
-  );
-}
+      ],
+    );
+  }
 
   Widget _buildActionCard({
     required IconData icon,
@@ -368,10 +368,7 @@ class HomeScreen extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28),
         gradient: const LinearGradient(
-          colors: [
-            Color(0xFFC11F27),
-            Color(0xFFD03B3D),
-          ],
+          colors: [Color(0xFFC11F27), Color(0xFFD03B3D)],
         ),
         boxShadow: [
           BoxShadow(
