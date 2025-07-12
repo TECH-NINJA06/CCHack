@@ -1,24 +1,28 @@
-# tools/selfcare_ai.py
+from groq import Groq
+from firebase_admin import firestore
+import os
 
-def generate_ai_recommendations(user_id: str, mental_state: dict) -> list[str]:
+groq_client = Groq(api_key='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')
+db = firestore.client()
+
+def generate_selfcare_suggestions():
     """
-    Use LLM to generate daily self-care suggestions from user's mental state.
+    Generate and store 3 AI self-care suggestions under:
+    hackathons > CChack > suggestions > 1, 2, 3 (as separate docs)
     """
 
-    prompt = f"""
-You are a mindfulness and wellness assistant. Based on the mental state JSON below, generate 3 personalized self-care suggestions for the user.
+    prompt = """
+You are a mindfulness and wellness assistant. Suggest 3 helpful, practical self-care tips for the day.
+Output only as a JSON array of strings. Example:
 
-Mental State:
-{mental_state}
-
-Example format:
 [
-  "Try a short guided meditation for anxiety.",
-  "Listen to a calming soundscape before sleep.",
-  "Set a hydration reminder every 2 hours."
+  "Drink a glass of water first thing in the morning.",
+  "Take a 10-minute walk outdoors.",
+  "Write down 3 things you're grateful for."
 ]
 """
 
+    # Generate from LLM
     response = groq_client.chat.completions.create(
         model="mixtral-8x7b-32768",
         messages=[{"role": "user", "content": prompt}],
@@ -27,5 +31,11 @@ Example format:
     )
 
     suggestions = eval(response.choices[0].message.content.strip())
-    db.collection("users").document(user_id).update({"today_recommendations": suggestions})
+
+    # Store each suggestion in a numbered doc (1, 2, 3)
+    for i, tip in enumerate(suggestions, start=1):
+        db.collection("hackathons").document("CChack") \
+          .collection("suggestions").document(str(i)) \
+          .set({"text": tip})
+
     return suggestions
