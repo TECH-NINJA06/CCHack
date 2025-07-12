@@ -684,7 +684,6 @@ Return them as a numbered list like:
 }
 
 }
-
 class BlogScreen extends StatelessWidget {
   const BlogScreen({super.key});
 
@@ -697,6 +696,24 @@ class BlogScreen extends StatelessWidget {
         'readTime': '5 min read',
         'category': 'Wellness',
         'color': const Color(0xFF6B73FF),
+        'content': '''Mental health is just as important as physical health, yet it's often overlooked in our busy lives. Here are five evidence-based ways to improve your mental well-being:
+
+**1. Prioritize Quality Sleep**
+Getting 7-9 hours of quality sleep each night is crucial for mental health. Poor sleep can increase stress hormones and make it harder to cope with daily challenges. Create a consistent bedtime routine and avoid screens before bed.
+
+**2. Stay Physically Active**
+Exercise releases endorphins, which are natural mood boosters. Even a 15-minute walk can help reduce anxiety and improve your mood. Find activities you enjoy - dancing, hiking, swimming, or yoga.
+
+**3. Connect with Others**
+Human connection is vital for mental health. Talk to friends, family, or a therapist about your feelings. Don't isolate yourself when you're struggling - reach out for support.
+
+**4. Practice Mindfulness**
+Being present in the moment can help reduce anxiety about the future and regret about the past. Try meditation, deep breathing, or simply paying attention to your surroundings.
+
+**5. Maintain a Healthy Diet**
+What you eat affects how you feel. A balanced diet rich in omega-3 fatty acids, whole grains, and fresh fruits and vegetables can support brain health and mood regulation.
+
+Remember, improving mental health is a journey, not a destination. Be patient with yourself and celebrate small victories along the way.''',
       },
       {
         'title': 'Meditation for Beginners',
@@ -704,6 +721,34 @@ class BlogScreen extends StatelessWidget {
         'readTime': '3 min read',
         'category': 'Mindfulness',
         'color': const Color(0xFF9F7AEA),
+        'content': '''Meditation might seem intimidating, but it's actually quite simple. Here's how to start your meditation journey:
+
+**Getting Started**
+Find a quiet, comfortable space where you won't be disturbed. You don't need special equipment - just yourself and a few minutes of time.
+
+**Basic Technique**
+1. Sit comfortably with your back straight
+2. Close your eyes or soften your gaze
+3. Focus on your breath - feel the air entering and leaving your nostrils
+4. When your mind wanders (and it will), gently return your attention to your breath
+5. Start with just 5 minutes and gradually increase
+
+**Common Challenges**
+- "I can't stop thinking": This is normal! The goal isn't to stop thoughts, but to notice them without judgment
+- "I don't have time": Even 2-3 minutes can be beneficial
+- "I'm not doing it right": There's no perfect meditation - be kind to yourself
+
+**Benefits You May Notice**
+- Reduced stress and anxiety
+- Better sleep quality
+- Improved focus and concentration
+- Greater emotional regulation
+- Increased self-awareness
+
+**Making It a Habit**
+Try meditating at the same time each day. Many people find morning meditation sets a positive tone for the day. Use apps like Headspace or Calm if you prefer guided meditations.
+
+Remember, meditation is a practice - be patient with yourself as you develop this valuable skill.''',
       },
       {
         'title': 'How to Deal with Burnout',
@@ -711,6 +756,38 @@ class BlogScreen extends StatelessWidget {
         'readTime': '7 min read',
         'category': 'Recovery',
         'color': const Color.fromARGB(255, 112, 209, 79),
+        'content': '''Burnout is more than just feeling tired - it's a state of physical, emotional, and mental exhaustion caused by prolonged stress. Here's how to recognize and recover from it:
+
+**Signs of Burnout**
+- Chronic fatigue that rest doesn't fix
+- Feeling cynical or detached from work/activities
+- Reduced productivity and motivation
+- Physical symptoms like headaches or insomnia
+- Emotional exhaustion and irritability
+
+**Immediate Recovery Steps**
+1. **Acknowledge the Problem**: Recognizing burnout is the first step to recovery
+2. **Set Boundaries**: Learn to say no to additional commitments
+3. **Take Time Off**: If possible, take a break from work or stressful activities
+4. **Prioritize Self-Care**: Focus on sleep, nutrition, and gentle exercise
+
+**Long-term Recovery Strategies**
+- **Reassess Your Priorities**: What truly matters to you?
+- **Develop Coping Skills**: Learn stress management techniques
+- **Build Support Networks**: Connect with friends, family, or support groups
+- **Consider Professional Help**: Therapists can provide valuable tools and perspective
+
+**Prevention Tips**
+- Regular breaks throughout the day
+- Maintain work-life balance
+- Practice stress-reduction techniques
+- Set realistic goals and expectations
+- Celebrate small accomplishments
+
+**When to Seek Help**
+If burnout symptoms persist despite self-care efforts, or if you're experiencing thoughts of self-harm, please reach out to a mental health professional immediately.
+
+Recovery from burnout takes time - be patient with yourself and remember that seeking help is a sign of strength, not weakness.''',
       },
       {
         'title': 'The Power of Gratitude',
@@ -718,6 +795,41 @@ class BlogScreen extends StatelessWidget {
         'readTime': '4 min read',
         'category': 'Positivity',
         'color': const Color(0xFF4FD1C7),
+        'content': '''Gratitude is more than just saying "thank you" - it's a powerful practice that can transform your mental health and overall well-being.
+
+**What is Gratitude?**
+Gratitude is the practice of recognizing and appreciating the positive aspects of your life, no matter how small. It's about shifting focus from what's lacking to what's abundant.
+
+**Science-Backed Benefits**
+Research shows that regular gratitude practice can:
+- Increase happiness and life satisfaction
+- Reduce symptoms of depression and anxiety
+- Improve sleep quality
+- Strengthen relationships
+- Boost immune system function
+- Increase resilience during difficult times
+
+**Simple Gratitude Practices**
+1. **Gratitude Journal**: Write down 3 things you're grateful for each day
+2. **Gratitude Letters**: Write thank-you notes to people who've impacted your life
+3. **Mindful Appreciation**: Take a moment to really notice and appreciate small pleasures
+4. **Gratitude Meditation**: Focus on feelings of appreciation during meditation
+5. **Sharing Gratitude**: Express appreciation to others verbally
+
+**Making It Stick**
+- Start small - even one thing per day counts
+- Be specific rather than general
+- Focus on people rather than things when possible
+- Notice the feeling of gratitude, not just the thought
+- Practice consistently, even on difficult days
+
+**Gratitude During Tough Times**
+It's not about ignoring problems or pretending everything is perfect. Instead, it's about finding small lights in the darkness - perhaps gratitude for a friend's support, a moment of peace, or your own strength in facing challenges.
+
+**Getting Started Today**
+Right now, think of three things you're grateful for. Feel the appreciation in your body. Notice how this simple practice can shift your mood and perspective.
+
+Gratitude is a muscle that gets stronger with practice. Start today and watch how it transforms your relationship with life.''',
       },
     ];
 
@@ -802,7 +914,18 @@ class BlogScreen extends StatelessWidget {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(16),
                       onTap: () {
-                        // Handle blog tap
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ArticleDetailScreen(
+                              title: blog['title']! as String,
+                              content: blog['content']! as String,
+                              category: blog['category']! as String,
+                              readTime: blog['readTime']! as String,
+                              color: blog['color']! as Color,
+                            ),
+                          ),
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(20),
@@ -916,6 +1039,195 @@ class BlogScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// Article Detail Screen
+class ArticleDetailScreen extends StatelessWidget {
+  final String title;
+  final String content;
+  final String category;
+  final String readTime;
+  final Color color;
+
+  const ArticleDetailScreen({
+    super.key,
+    required this.title,
+    required this.content,
+    required this.category,
+    required this.readTime,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF7FAFC),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF2D3748)),
+          onPressed: () => Navigator.pop(context),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.bookmark_border, color: Color(0xFF4A5568)),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.share, color: Color(0xFF4A5568)),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header
+            Container(
+              width: double.infinity,
+              color: Colors.white,
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: color,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          category,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF7FAFC),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.schedule,
+                              size: 12,
+                              color: Color(0xFF718096),
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              readTime,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF718096),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2D3748),
+                      height: 1.3,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            
+            // Content
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.04),
+                    blurRadius: 10,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Text(
+                content,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Color(0xFF2D3748),
+                  height: 1.6,
+                ),
+              ),
+            ),
+            
+            // Action buttons
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.favorite_border, size: 18),
+                      label: const Text('Like Article'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: color,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.comment_outlined, size: 18),
+                      label: const Text('Comments'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: color,
+                        side: BorderSide(color: color),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
