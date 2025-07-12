@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'test_questions.dart';
-import 'result_screen.dart'; // ✅ THIS IS NECESSARY
-
+import 'result_screen.dart';
 
 class TestScreen extends StatefulWidget {
   final String testKey;
@@ -105,7 +104,7 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
         } else {
           int maxScore = test['questions'].fold<int>(
             0,
-            (sum, q) => sum + (q['scores'] as List<int>).reduce((a, b) => a > b ? a : b),
+            (sum, q) => sum + ((q['scores'] as List<int>).reduce((a, b) => a > b ? a : b)),
           );
 
           Navigator.pushReplacement(
@@ -189,10 +188,7 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
                 ),
                 child: IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: Icon(
-                    Icons.arrow_back_ios,
-                    color: theme['primary'],
-                  ),
+                  icon: Icon(Icons.arrow_back_ios, color: theme['primary']),
                 ),
               ),
               const SizedBox(width: 16),
@@ -202,19 +198,12 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
                   children: [
                     Text(
                       test['title'],
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey.shade800,
-                      ),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.grey.shade800),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       'Question ${currentQuestion + 1} of ${test['questions'].length}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey.shade600,
-                      ),
+                      style: TextStyle(fontSize: 14, color: Colors.grey.shade600),
                     ),
                   ],
                 ),
@@ -222,16 +211,10 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [theme['primary'], theme['secondary']],
-                  ),
+                  gradient: LinearGradient(colors: [theme['primary'], theme['secondary']]),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
-                  theme['icon'],
-                  color: Colors.white,
-                  size: 24,
-                ),
+                child: Icon(theme['icon'], color: Colors.white, size: 24),
               ),
             ],
           ),
@@ -247,9 +230,7 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
               widthFactor: progress,
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [theme['primary'], theme['secondary']],
-                  ),
+                  gradient: LinearGradient(colors: [theme['primary'], theme['secondary']]),
                   borderRadius: BorderRadius.circular(3),
                 ),
               ),
@@ -286,32 +267,19 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
                   color: theme['primary'].withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(
-                  Icons.quiz,
-                  color: theme['primary'],
-                  size: 20,
-                ),
+                child: Icon(Icons.quiz, color: theme['primary'], size: 20),
               ),
               const SizedBox(width: 12),
               Text(
                 'Question ${currentQuestion + 1}',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: theme['primary'],
-                ),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: theme['primary']),
               ),
             ],
           ),
           const SizedBox(height: 16),
           Text(
             question['question'],
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade800,
-              height: 1.4,
-            ),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.grey.shade800, height: 1.4),
           ),
         ],
       ),
@@ -324,11 +292,7 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
       children: [
         Text(
           'Choose your answer:',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.grey.shade700,
-          ),
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.grey.shade700),
         ),
         const SizedBox(height: 16),
         ...List.generate(question['options'].length, (index) {
@@ -375,13 +339,7 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
                 width: selected ? 2 : 1,
               ),
               boxShadow: selected
-                  ? [
-                      BoxShadow(
-                        color: theme['primary'].withOpacity(0.2),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ]
+                  ? [BoxShadow(color: theme['primary'].withOpacity(0.2), blurRadius: 8, offset: const Offset(0, 4))]
                   : [],
             ),
             child: Row(
@@ -393,14 +351,9 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: selected ? theme['primary'] : Colors.transparent,
-                    border: Border.all(
-                      color: selected ? theme['primary'] : Colors.grey.shade400,
-                      width: 2,
-                    ),
+                    border: Border.all(color: selected ? theme['primary'] : Colors.grey.shade400, width: 2),
                   ),
-                  child: selected
-                      ? Icon(Icons.check, color: Colors.white, size: 12)
-                      : null,
+                  child: selected ? Icon(Icons.check, color: Colors.white, size: 12) : null,
                 ),
                 const SizedBox(width: 16),
                 Expanded(
@@ -425,31 +378,66 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
     final isLastQuestion = currentQuestion == test['questions'].length - 1;
     final isEnabled = selectedOptionIndex != null;
 
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: isEnabled ? _nextQuestion : null,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: isEnabled ? theme['primary'] : Colors.grey.shade300,
-          foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          elevation: isEnabled ? 4 : 0,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              isLastQuestion ? 'Complete Assessment' : 'Next Question',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+    final currentQ = test['questions'][currentQuestion];
+    final selectedText = isEnabled ? currentQ['options'][selectedOptionIndex!] : '';
+    final selectedScore = isEnabled ? currentQ['scores'][selectedOptionIndex!] : 0;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        if (isEnabled) ...[
+          Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            decoration: BoxDecoration(
+              color: theme['primary'].withOpacity(0.05),
+              borderRadius: BorderRadius.circular(12),
             ),
-            const SizedBox(width: 8),
-            Icon(isLastQuestion ? Icons.check_circle : Icons.arrow_forward, size: 20),
-          ],
+            child: Text(
+              'You selected: "$selectedText"  (Score: $selectedScore)',
+              style: TextStyle(color: theme['primary'], fontSize: 14, fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: theme['secondary'].withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              '🧠 Wellness Index: ${score + selectedScore}',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: theme['secondary']),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: isEnabled ? _nextQuestion : null,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: isEnabled ? theme['primary'] : Colors.grey.shade300,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              elevation: isEnabled ? 4 : 0,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  isLastQuestion ? 'Complete Assessment' : 'Next Question',
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(width: 8),
+                Icon(isLastQuestion ? Icons.check_circle : Icons.arrow_forward, size: 20),
+              ],
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -463,11 +451,7 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
         ),
         child: Text(
           '${currentQuestion + 1} of ${test['questions'].length} questions completed',
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey.shade600,
-            fontWeight: FontWeight.w500,
-          ),
+          style: TextStyle(fontSize: 14, color: Colors.grey.shade600, fontWeight: FontWeight.w500),
         ),
       ),
     );
