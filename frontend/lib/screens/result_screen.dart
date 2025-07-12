@@ -48,7 +48,7 @@ class ResultScreen extends StatelessWidget {
               ),
               const SizedBox(height: 40),
               ElevatedButton(
-                onPressed: () => Navigator.pushNamedAndRemoveUntil(context, '/home', (_) => false),
+                onPressed: () => Navigator.pop(context),
                 child: const Text('Back to Home'),
               ),
             ],
