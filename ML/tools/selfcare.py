@@ -1,54 +1,41 @@
-# tools/selfcare_ai.py
-from firebase_admin import firestore
 from groq import Groq
+from firebase_admin import firestore
 import os
 
 groq_client = Groq(api_key='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')
 db = firestore.client()
 
-def generate_ai_recommendations(user_id: str, mental_state: dict) -> list[str]:
+def generate_selfcare_suggestions():
     """
-    Use Groq LLM to generate 3 personalized self-care suggestions.
-    Saves them under users/{user_id}/today_recommendations.
+    Generate and store 3 AI self-care suggestions under:
+    hackathons > CChack > suggestions > 1, 2, 3 (as separate docs)
     """
 
-    prompt = f"""
-You are a mindfulness and wellness assistant. Based on the mental state JSON below, generate 3 personalized self-care suggestions for the user.
+    prompt = """
+You are a mindfulness and wellness assistant. Suggest 3 helpful, practical self-care tips for the day.
+Output only as a JSON array of strings. Example:
 
-Mental State:
-{mental_state}
-
-Example format:
 [
-  "Try a short guided meditation for anxiety.",
-  "Listen to a calming soundscape before sleep.",
-  "Set a hydration reminder every 2 hours."
+  "Drink a glass of water first thing in the morning.",
+  "Take a 10-minute walk outdoors.",
+  "Write down 3 things you're grateful for."
 ]
-Only return the JSON list. No explanation.
 """
 
-    try:
-        response = groq_client.chat.completions.create(
-            model="mixtral-8x7b-32768",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.7,
-            max_tokens=300,
-        )
+    # Generate from LLM
+    response = groq_client.chat.completions.create(
+        model="mixtral-8x7b-32768",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.7,
+        max_tokens=300,
+    )
 
-        # Safely parse suggestions
-        raw_output = response.choices[0].message.content.strip()
-        suggestions = eval(raw_output)
+    suggestions = eval(response.choices[0].message.content.strip())
 
-        if not isinstance(suggestions, list):
-            raise ValueError("Groq did not return a valid list")
+    # Store each suggestion in a numbered doc (1, 2, 3)
+    for i, tip in enumerate(suggestions, start=1):
+        db.collection("hackathons").document("CChack") \
+          .collection("suggestions").document(str(i)) \
+          .set({"text": tip})
 
-        # Save to Firestore under the user
-        db.collection("users").document(user_id).update({
-            "today_recommendations": suggestions
-        })
-
-        return suggestions
-
-    except Exception as e:
-        print(f"[ERROR] Failed to generate AI recommendations: {e}")
-        return []
+    return suggestions
