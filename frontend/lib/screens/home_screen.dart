@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/services/notification_service.dart';
-import 'package:provider/provider.dart';
-import '../models/mood_provider.dart';
 import 'journal_screen.dart';
-import 'mood_screen.dart';
-import 'logs_screen.dart';
-import 'sos_screen.dart';
 import 'assessment_screen.dart';
 import 'home_content.dart'; 
 
@@ -97,8 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// --------------------- Dummy Screens ---------------------
-
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
 
@@ -113,6 +105,64 @@ class BlogScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Blogs'));
+    final blogs = [
+      {
+        'title': '5 Ways to Improve Your Mental Health',
+        'description': 'Simple tips like getting enough sleep, staying active, and talking to someone you trust can help boost your mood.',
+      },
+      {
+        'title': 'Meditation for Beginners',
+        'description': 'Meditation can help reduce stress and anxiety. Learn how to start with just 5 minutes a day.',
+      },
+      {
+        'title': 'How to Deal with Burnout',
+        'description': 'Feeling exhausted all the time? Learn the signs of burnout and ways to recover from it.',
+      },
+      {
+        'title': 'The Power of Gratitude',
+        'description': 'Practicing gratitude daily can shift your mindset and improve your emotional well-being.',
+      },
+    ];
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Mental Health Blogs')),
+      body: ListView.builder(
+        itemCount: blogs.length,
+        padding: const EdgeInsets.all(16),
+        itemBuilder: (context, index) {
+          final blog = blogs[index];
+          return Card(
+            margin: const EdgeInsets.only(bottom: 16),
+            elevation: 3,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    blog['title']!,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF2D3748),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    blog['description']!,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.black87,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }
