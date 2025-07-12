@@ -10,7 +10,7 @@ class _AssessmentScreenState extends State<AssessmentScreen>
     with TickerProviderStateMixin {
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
-  
+
   final List<Map<String, dynamic>> tests = [
     {
       'title': 'Depression Assessment',
@@ -61,14 +61,10 @@ class _AssessmentScreenState extends State<AssessmentScreen>
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _fadeController,
-      curve: Curves.easeInOut,
-    ));
-    
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
+    );
+
     _fadeController.forward();
   }
 
@@ -102,7 +98,7 @@ class _AssessmentScreenState extends State<AssessmentScreen>
               children: [
                 // Custom Header
                 _buildHeader(context),
-                
+
                 // Content
                 Expanded(
                   child: SingleChildScrollView(
@@ -111,20 +107,20 @@ class _AssessmentScreenState extends State<AssessmentScreen>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 20),
-                        
+
                         // Welcome message
                         _buildWelcomeSection(),
-                        
+
                         const SizedBox(height: 30),
-                        
+
                         // Assessment cards
                         _buildAssessmentCards(),
-                        
+
                         const SizedBox(height: 20),
-                        
+
                         // Bottom info
                         _buildBottomInfo(),
-                        
+
                         const SizedBox(height: 30),
                       ],
                     ),
@@ -215,10 +211,7 @@ class _AssessmentScreenState extends State<AssessmentScreen>
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Colors.blue.shade600,
-            Colors.purple.shade500,
-          ],
+          colors: [Colors.blue.shade600, Colors.purple.shade500],
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
@@ -362,19 +355,13 @@ class _AssessmentScreenState extends State<AssessmentScreen>
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: test['gradient'],
-                    ),
+                    gradient: LinearGradient(colors: test['gradient']),
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: Icon(
-                    test['icon'],
-                    color: Colors.white,
-                    size: 28,
-                  ),
+                  child: Icon(test['icon'], color: Colors.white, size: 28),
                 ),
                 const SizedBox(width: 16),
-                
+
                 // Content
                 Expanded(
                   child: Column(
@@ -415,7 +402,7 @@ class _AssessmentScreenState extends State<AssessmentScreen>
                     ],
                   ),
                 ),
-                
+
                 // Arrow
                 Container(
                   padding: const EdgeInsets.all(8),
@@ -447,11 +434,7 @@ class _AssessmentScreenState extends State<AssessmentScreen>
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            icon,
-            size: 12,
-            color: color,
-          ),
+          Icon(icon, size: 12, color: color),
           const SizedBox(width: 4),
           Text(
             text,
@@ -472,21 +455,14 @@ class _AssessmentScreenState extends State<AssessmentScreen>
       decoration: BoxDecoration(
         color: Colors.green.shade50,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.green.shade200,
-          width: 1,
-        ),
+        border: Border.all(color: Colors.green.shade200, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(
-                Icons.security,
-                color: Colors.green.shade600,
-                size: 20,
-              ),
+              Icon(Icons.security, color: Colors.green.shade600, size: 20),
               const SizedBox(width: 8),
               Text(
                 'Your Privacy is Protected',
