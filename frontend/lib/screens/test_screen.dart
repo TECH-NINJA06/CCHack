@@ -356,6 +356,7 @@ class _TestScreenState extends State<TestScreen> with TickerProviderStateMixin {
                   child: selected ? Icon(Icons.check, color: Colors.white, size: 12) : null,
                 ),
                 const SizedBox(width: 16),
+                
                 Expanded(
                   child: Text(
                     text,
