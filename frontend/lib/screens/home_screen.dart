@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/gratitude_screen.dart';
 import 'journal_screen.dart';
 import 'assessment_screen.dart';
 import 'home_content.dart'; 
@@ -19,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _pages = [
     const HomeContent(), 
-    const JournalScreen(),
+    const GratitudeEntryScreen(),
     const NotificationScreen(),
     const BlogScreen(),
     AssessmentScreen(),
@@ -73,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.book_rounded),
-                label: 'Journal',
+                label: 'Gratitude',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.notifications_rounded),
